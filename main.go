@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/drevald/nestor/game"
+	// "github.com/drevald/nestor/game"
+    "github.com/drevald/nestor/constructor"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -14,5 +15,8 @@ func main () {
     // if err := ebiten.RunGame(game); err != nil {
     //     log.Fatal(err)
     // }
-	ebiten.RunGame(&game.Game{})
+
+//    ebiten.RunGame(&game.Game{})
+    ebiten.RunGame(&constructor.Game{})
+
 }

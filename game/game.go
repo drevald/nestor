@@ -29,7 +29,17 @@ type Bukva struct {
 var bukvy = []Bukva{
 	{bounds:[]int{68, 37, 103, 109}, char:[]rune{'\u0430'}}, // азъ
 	{bounds:[]int{107, 41, 129, 96}, char:[]rune{'\u0430'}}, // азъ
+	{bounds:[]int{142,45,197,100}, char:[]rune{'\u0430'}}, // азъ
+	
 	{bounds:[]int{58, 177, 119, 234}, char:[]rune{'\u0431'}}, // буки
+	{bounds:[]int{140, 181, 226, 247}, char:[]rune{'\u0431'}}, // буки
+	{bounds:[]int{187, 181, 226, 247}, char:[]rune{'\u0431'}}, // буки
+	{bounds:[]int{236, 182, 269, 231}, char:[]rune{'\u0431'}}, // буки
+
+	{bounds:[]int{32, 308, 80, 361}, char:[]rune{'\u0432'}}, // веди
+	{bounds:[]int{94, 308, 124, 353}, char:[]rune{'\u0432'}}, // веди
+	{bounds:[]int{136, 303, 184, 356}, char:[]rune{'\u0432'}}, // веди
+
 }
 
 func (g *Game) Init () {
@@ -42,7 +52,7 @@ func (g *Game) Layout (int, int) (int, int) {
 
 func (g *Game) Draw (screen *ebiten.Image) {
 	if g.bukva.bounds == nil {
-		g.bukva = bukvy[rand.Intn(3)]
+		g.bukva = bukvy[rand.Intn(len(bukvy))]
 		width, _ := ebiten.WindowSize()
 		g.bukva.offsetX = rand.Intn(width-50)
 		g.bukva.offsetY = 0
@@ -76,6 +86,10 @@ func (g *Game) Update () error {
 	if inpututil.IsKeyJustPressed(ebiten.KeyComma) && g.bukva.char[0] == '\u0431' {
 		g.bukva.bounds = nil
 		g.bukva.char = nil
-	}	
+	}
+	if inpututil.IsKeyJustPressed(ebiten.KeyD) && g.bukva.char[0] == '\u0432' {
+		g.bukva.bounds = nil
+		g.bukva.char = nil
+	}		
     return nil
 }
