@@ -27,6 +27,7 @@ type Bukva struct {
 }
 
 var bukvy = []Bukva{
+
 	{bounds:[]int{62, 307, 101, 384}, char:[]rune{'\u0430'}}, // азъ
 	{bounds:[]int{126, 302, 161, 390}, char:[]rune{'\u0430'}}, // азъ
 	{bounds:[]int{189, 301, 294, 392}, char:[]rune{'\u0430'}}, // азъ
@@ -45,9 +46,6 @@ var bukvy = []Bukva{
 //	{bounds:[]int{www, www, www, www}, char:[]rune{'\u0431'}}, // буки
 //	{bounds:[]int{www, www, www, www}, char:[]rune{'\u0431'}}, // буки
 //	{bounds:[]int{www, www, www, www}, char:[]rune{'\u0431'}}, // буки
-
-
-
 
 }
 
