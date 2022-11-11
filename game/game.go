@@ -27,9 +27,28 @@ type Bukva struct {
 }
 
 var bukvy = []Bukva{
-	{bounds:[]int{68, 37, 103, 109}, char:[]rune{'\u0430'}}, // азъ
-	{bounds:[]int{107, 41, 129, 96}, char:[]rune{'\u0430'}}, // азъ
-	{bounds:[]int{58, 177, 119, 234}, char:[]rune{'\u0431'}}, // буки
+	{bounds:[]int{62, 307, 101, 384}, char:[]rune{'\u0430'}}, // азъ
+	{bounds:[]int{126, 302, 161, 390}, char:[]rune{'\u0430'}}, // азъ
+	{bounds:[]int{189, 301, 294, 392}, char:[]rune{'\u0430'}}, // азъ
+	{bounds:[]int{312, 304, 401, 425}, char:[]rune{'\u0430'}}, // азъ	
+	{bounds:[]int{415, 303, 480, 392}, char:[]rune{'\u0430'}}, // азъ	
+	{bounds:[]int{519, 310, 597, 443}, char:[]rune{'\u0430'}}, // азъ	
+	{bounds:[]int{615, 312, 701, 388}, char:[]rune{'\u0430'}}, // азъ	
+	{bounds:[]int{725, 293, 825, 390}, char:[]rune{'\u0430'}}, // азъ	
+	{bounds:[]int{866, 304, 953, 384}, char:[]rune{'\u0430'}}, // азъ	
+
+	{bounds:[]int{102, 512, 198, 600}, char:[]rune{'\u0431'}}, // буки
+	{bounds:[]int{228, 510, 277, 600}, char:[]rune{'\u0431'}}, // буки	
+	{bounds:[]int{306, 515, 366, 618}, char:[]rune{'\u0431'}}, // буки	
+	{bounds:[]int{376, 516, 433, 593}, char:[]rune{'\u0431'}}, // буки	
+//	{bounds:[]int{www, www, www, www}, char:[]rune{'\u0431'}}, // буки
+//	{bounds:[]int{www, www, www, www}, char:[]rune{'\u0431'}}, // буки
+//	{bounds:[]int{www, www, www, www}, char:[]rune{'\u0431'}}, // буки
+//	{bounds:[]int{www, www, www, www}, char:[]rune{'\u0431'}}, // буки
+
+
+
+
 }
 
 func (g *Game) Init () {
@@ -42,7 +61,7 @@ func (g *Game) Layout (int, int) (int, int) {
 
 func (g *Game) Draw (screen *ebiten.Image) {
 	if g.bukva.bounds == nil {
-		g.bukva = bukvy[rand.Intn(3)]
+		g.bukva = bukvy[rand.Intn(len(bukvy))]
 		width, _ := ebiten.WindowSize()
 		g.bukva.offsetX = rand.Intn(width-50)
 		g.bukva.offsetY = 0
@@ -64,6 +83,10 @@ func (g *Game) Draw (screen *ebiten.Image) {
 	bukImage := ebiten.NewImageFromImage(buk)
 	subImage := bukImage.SubImage(image.Rect(g.bukva.bounds[0], g.bukva.bounds[1], g.bukva.bounds[2], g.bukva.bounds[3])).(*ebiten.Image)
 	screen.DrawImage(subImage, options)
+	g.bukva.offsetY++
+	g.bukva.offsetY++
+	g.bukva.offsetY++
+	g.bukva.offsetY++
 	g.bukva.offsetY++
 
 }
