@@ -1,31 +1,3 @@
-package game
-
-import (
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/inpututil"
-	"image"
-	"image/color"
-	"os"
-	"fmt"
-	"bytes"
-	"image/png"
-	"math/rand"
-)
-
-// var r image.Rectangle
-
-type Game struct {
-	pos int
-	bukva Bukva
-}
-
-type Bukva struct {
-	bounds []int
-	char []rune
-	offsetX	int
-	offsetY	int
-}
-
 var bukvy = []Bukva{
 
 	{bounds:[]int{722, 296, 826, 389}, char:[]rune{'\u0430'}}, // А
@@ -202,87 +174,87 @@ var bukvy = []Bukva{
 	{bounds:[]int{2791, 1384, 2843, 1445}, char:[]rune{'\u0437'}}, // З
 	{bounds:[]int{2858, 1355, 2920, 1460}, char:[]rune{'\u0437'}}, // З
 	{bounds:[]int{2958, 1359, 3018, 1455}, char:[]rune{'\u0437'}}, // З
-	{bounds:[]int{75, 1755, 122, 1816}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{137, 1752, 239, 1819}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{273, 1749, 371, 1815}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{374, 1757, 487, 1819}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{510, 1750, 617, 1822}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{621, 1725, 700, 1837}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{698, 1727, 757, 1829}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{753, 1759, 817, 1834}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{826, 1753, 881, 1812}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{896, 1765, 987, 1819}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1131, 1748, 1171, 1825}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1201, 1753, 1254, 1822}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1276, 1758, 1327, 1821}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1379, 1740, 1429, 1866}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1450, 1742, 1493, 1852}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1537, 1748, 1596, 1834}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1622, 1763, 1675, 1833}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1690, 1770, 1733, 1836}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1737, 1758, 1812, 1805}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1832, 1738, 1954, 1859}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{1866, 1773, 1898, 1831}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{2146, 1771, 2199, 1853}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{2216, 1770, 2293, 1852}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{2305, 1768, 2394, 1849}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{2405, 1761, 2501, 1856}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{2503, 1758, 2628, 1851}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{2634, 1760, 2724, 1850}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{2790, 1769, 2867, 1861}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{2873, 1774, 2952, 1857}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{2967, 1785, 3021, 1854}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{3026, 1755, 3107, 1854}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{3111, 1758, 3192, 1853}, char:[]rune{'\u043b'}}, // Л
-	{bounds:[]int{208, 1942, 249, 2006}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{245, 1945, 289, 2009}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{304, 1905, 357, 2006}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{362, 1927, 417, 2009}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{516, 1918, 575, 1998}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{537, 1997, 575, 2042}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{643, 1933, 694, 1995}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{695, 1931, 740, 2035}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{746, 1931, 811, 2006}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{774, 1927, 869, 2025}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{1200, 1961, 1280, 2022}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{1323, 1958, 1445, 2071}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{1461, 1962, 1604, 2028}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{1624, 1964, 1747, 2030}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{1784, 1942, 1883, 1981}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{1795, 1966, 1870, 2035}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2231, 1943, 2273, 2015}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2307, 1957, 2365, 2018}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2391, 1942, 2463, 2018}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2471, 1931, 2531, 2020}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2552, 1940, 2623, 2021}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2653, 1930, 2710, 2021}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2732, 1936, 2779, 2020}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2793, 1935, 2845, 2023}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2856, 1927, 2926, 2018}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2945, 1958, 2976, 2019}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{2987, 1957, 3024, 2017}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{3047, 1955, 3101, 2019}, char:[]rune{'\u043d'}}, // Н
-	{bounds:[]int{674, 2081, 816, 2268}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{2980, 2097, 3058, 2222}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{157, 2143, 210, 2264}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{257, 2134, 333, 2265}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{372, 2122, 473, 2273}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{516, 2144, 583, 2280}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{1111, 2166, 1189, 2270}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{1215, 2171, 1314, 2259}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{1323, 2172, 1418, 2257}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{1429, 2169, 1512, 2258}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{1524, 2167, 1710, 2246}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{1720, 2172, 1785, 2289}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{1817, 2169, 1952, 2271}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{2269, 2108, 2325, 2207}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{2355, 2103, 2463, 2201}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{2496, 2123, 2558, 2222}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{2581, 2115, 2649, 2191}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{2686, 2102, 2730, 2191}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{2755, 2125, 2843, 2191}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{2849, 2125, 2895, 2201}, char:[]rune{'\u043f'}}, // П
-	{bounds:[]int{2922, 2126, 2958, 2189}, char:[]rune{'\u043f'}}, // П
+	{bounds:[]int{75, 1755, 122, 1816}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{137, 1752, 239, 1819}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{273, 1749, 371, 1815}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{374, 1757, 487, 1819}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{510, 1750, 617, 1822}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{621, 1725, 700, 1837}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{698, 1727, 757, 1829}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{753, 1759, 817, 1834}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{826, 1753, 881, 1812}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{896, 1765, 987, 1819}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1131, 1748, 1171, 1825}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1201, 1753, 1254, 1822}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1276, 1758, 1327, 1821}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1379, 1740, 1429, 1866}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1450, 1742, 1493, 1852}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1537, 1748, 1596, 1834}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1622, 1763, 1675, 1833}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1690, 1770, 1733, 1836}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1737, 1758, 1812, 1805}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1832, 1738, 1954, 1859}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{1866, 1773, 1898, 1831}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{2146, 1771, 2199, 1853}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{2216, 1770, 2293, 1852}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{2305, 1768, 2394, 1849}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{2405, 1761, 2501, 1856}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{2503, 1758, 2628, 1851}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{2634, 1760, 2724, 1850}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{2790, 1769, 2867, 1861}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{2873, 1774, 2952, 1857}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{2967, 1785, 3021, 1854}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{3026, 1755, 3107, 1854}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{3111, 1758, 3192, 1853}, char:[]rune{'\u043B'}}, // Л
+	{bounds:[]int{208, 1942, 249, 2006}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{245, 1945, 289, 2009}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{304, 1905, 357, 2006}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{362, 1927, 417, 2009}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{516, 1918, 575, 1998}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{537, 1997, 575, 2042}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{643, 1933, 694, 1995}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{695, 1931, 740, 2035}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{746, 1931, 811, 2006}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{774, 1927, 869, 2025}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{1200, 1961, 1280, 2022}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{1323, 1958, 1445, 2071}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{1461, 1962, 1604, 2028}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{1624, 1964, 1747, 2030}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{1784, 1942, 1883, 1981}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{1795, 1966, 1870, 2035}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2231, 1943, 2273, 2015}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2307, 1957, 2365, 2018}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2391, 1942, 2463, 2018}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2471, 1931, 2531, 2020}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2552, 1940, 2623, 2021}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2653, 1930, 2710, 2021}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2732, 1936, 2779, 2020}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2793, 1935, 2845, 2023}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2856, 1927, 2926, 2018}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2945, 1958, 2976, 2019}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{2987, 1957, 3024, 2017}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{3047, 1955, 3101, 2019}, char:[]rune{'\u043D'}}, // Н
+	{bounds:[]int{674, 2081, 816, 2268}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{2980, 2097, 3058, 2222}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{157, 2143, 210, 2264}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{257, 2134, 333, 2265}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{372, 2122, 473, 2273}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{516, 2144, 583, 2280}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{1111, 2166, 1189, 2270}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{1215, 2171, 1314, 2259}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{1323, 2172, 1418, 2257}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{1429, 2169, 1512, 2258}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{1524, 2167, 1710, 2246}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{1720, 2172, 1785, 2289}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{1817, 2169, 1952, 2271}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{2269, 2108, 2325, 2207}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{2355, 2103, 2463, 2201}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{2496, 2123, 2558, 2222}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{2581, 2115, 2649, 2191}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{2686, 2102, 2730, 2191}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{2755, 2125, 2843, 2191}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{2849, 2125, 2895, 2201}, char:[]rune{'\u043F'}}, // П
+	{bounds:[]int{2922, 2126, 2958, 2189}, char:[]rune{'\u043F'}}, // П
 	{bounds:[]int{171, 2362, 234, 2430}, char:[]rune{'\u0441'}}, // С
 	{bounds:[]int{261, 2365, 332, 2430}, char:[]rune{'\u0441'}}, // С
 	{bounds:[]int{371, 2362, 432, 2481}, char:[]rune{'\u0441'}}, // С
@@ -348,47 +320,7 @@ var bukvy = []Bukva{
 	{bounds:[]int{772, 2864, 863, 2991}, char:[]rune{'\u0447'}}, // Ч
 }
 
-func (g *Game) Init () {
-	g.pos = 0;
-}
-
-func (g *Game) Layout (int, int) (int, int) {
-	return 640, 480
-}
-
-func (g *Game) Draw (screen *ebiten.Image) {
-	if g.bukva.bounds == nil {
-		g.bukva = bukvy[rand.Intn(len(bukvy))]
-		width, _ := ebiten.WindowSize()
-		g.bukva.offsetX = rand.Intn(width-50)
-		g.bukva.offsetY = 0
-	}
-    screen.Fill(color.RGBA{255, 255, 255, 255})
-	options := &ebiten.DrawImageOptions{}
-	options.GeoM.Translate(float64(g.bukva.offsetX), float64(g.bukva.offsetY%500))
-	data, err := os.ReadFile("game/bukvy.png")
-	if err != nil {
-		fmt.Println(err)
-	}
-	
-	imageReader := bytes.NewReader(data)
-	buk, err := png.Decode(imageReader)
-	if err != nil {
-		fmt.Println(err)
-	}
-	
-	bukImage := ebiten.NewImageFromImage(buk)
-	subImage := bukImage.SubImage(image.Rect(g.bukva.bounds[0], g.bukva.bounds[1], g.bukva.bounds[2], g.bukva.bounds[3])).(*ebiten.Image)
-	screen.DrawImage(subImage, options)
-	g.bukva.offsetY++
-	g.bukva.offsetY++
-	g.bukva.offsetY++
-	g.bukva.offsetY++
-	g.bukva.offsetY++
-
-}
-
-func (g *Game) Update () error {
+// Update method additions
 	if inpututil.IsKeyJustPressed(ebiten.KeyF) && g.bukva.char[0] == '\u0430' {
 		g.bukva.bounds = nil
 		g.bukva.char = nil
@@ -445,5 +377,3 @@ func (g *Game) Update () error {
 		g.bukva.bounds = nil
 		g.bukva.char = nil
 	}
-    return nil
-}
